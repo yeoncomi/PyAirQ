@@ -44,8 +44,6 @@ def do_connect(bssid, password):
 		sta_if.connect(str(bssid), str(password))
 		while not sta_if.isconnected():	
 			pass
-	print('network config:', sta_if.ifconfig())
-LED = led(Pin_R, Pin_G, Pin_B)
 dust_d = dust.read()
 do_connect("ssid","password")
 #loop
