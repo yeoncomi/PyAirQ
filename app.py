@@ -6,6 +6,7 @@ i2c = machine.I2C(-1, machine.Pin(4), machine.Pin(5))
 oled = ssd1306.SSD1306_I2C(128, 64, i2c)
 d = dht.DHT22(machine.Pin(6))
 dust = machine.ADC(0)
+
 #initialization
 oled.fill(0)
 def print_text(text, x, y):
@@ -30,6 +31,8 @@ class led:
         return int((float(n) / 255)*1023)
 LED = led(Pin_R, Pin_G, Pin_B)
 dust_d = dust.read()
+
+#loop
 while True:
     d.measure
     temp = d.temperature()
