@@ -91,7 +91,6 @@ while True:
             for tone, length in zip(melody, rhythm):
                 beeper.freq(tones[tone])
                 time.sleep(tempo/length)
-                beeper.deinit()
     elif dustdensity < 25:
         if dustdensity < 15:
             if dustdensity < 5:
