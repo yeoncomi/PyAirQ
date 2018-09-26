@@ -11,6 +11,22 @@ oled = ssd1306.SSD1306_I2C(128, 64, i2c)
 d = dht.DHT22(machine.Pin(6))
 dust = machine.ADC(0)
 
+tempo = 5
+tones = {
+    'c': 262,
+    'd': 294,
+    'e': 330,
+    'f': 349,
+    'g': 392,
+    'a': 440,
+    'b': 494,
+    'C': 523,
+    ' ': 0,
+}
+beeper = machine.PWM(Pin(7, Pin.OUT), freq=440, duty=512)
+melody = 'cdefgabC'
+rhythm = [8, 8, 8, 8, 8, 8, 8, 8] 
+
 #initialization
 oled.fill(0)
 def print_text(text, x, y):
@@ -35,7 +51,7 @@ class led:
         self.pin_b.duty(self.duty_translate(self.b))
     def duty_translate(self, n):
         return int((float(n) / 255)*1023)
-
+led.__init__(1,2,3)
 def do_connect(bssid, password):
 	import network
 	sta_if = network.WLAN(network.STA_IF)
@@ -61,6 +77,11 @@ while True:
     print_text(hr+':'+m, 60, 10)
     if dustdensity > 25 :
         led.setup(255,0,0)
+        if dustdensity >65:
+            for tone, length in zip(melody, rhythm):
+                beeper.freq(tones[tone])
+                time.sleep(tempo/length)
+                beeper.deinit()
     elif dustdensity < 25 :
         if dustdensity < 15:
             if dustdensity < 5:
